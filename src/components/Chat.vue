@@ -2,7 +2,7 @@
     <div class="chat container">
         <h1>Chat {{ this.name }}</h1>
         <div>
-            <ul>
+            <ul v-chat-scroll>
                 <li v-for="message in messages" :key="message.id">
                     <span>{{ message.name }}</span>
                     <span>{{ message.content}}</span>
@@ -19,6 +19,8 @@
 
 import NewMessage from '@/components/NewMessage'
 import db from '@/firebase/init'
+import moment from 'moment'
+
 export default {
     name: 'Chat',
     props: ['name'],
@@ -41,7 +43,7 @@ export default {
                         id: doc.id,
                         name: doc.data().name,
                         content: doc.data().content,
-                        timestamp: doc.data().timestamp
+                        timestamp: moment(doc.data().timestamp).format('lll')
                     })
                 }
             })
